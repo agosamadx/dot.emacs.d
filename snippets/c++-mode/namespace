@@ -1,0 +1,8 @@
+# name: namespace
+# key: namespace
+# --
+namespace ${1:Namespace} {
+
+          `yas/selected-text`
+
+} // namespace $1

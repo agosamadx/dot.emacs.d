@@ -1,0 +1,6 @@
+eln-cache/
+elpa/
+.lsp-session-v1
+custom.el
+auto-save-list/
+eshell/
