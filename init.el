@@ -89,6 +89,7 @@
 
 ;;; lsp
 (setq lsp-prefer-capf t)
+(setq lsp-enable-indentation nil)
 (setq lsp-enable-on-type-formatting nil)
 
 ;;; redo-tree
@@ -138,6 +139,7 @@
           (lambda()
             (c-set-offset 'innamespace 0)
             (c-set-offset 'inlambda 0)
+            (c-set-offset 'arglist-intro '+)
             (c-set-offset 'arglist-close 0)
             (c-set-offset 'arglist-cont-nonempty 0)))
 (add-hook 'c++-mode-hook 'company-mode)
