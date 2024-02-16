@@ -7,7 +7,7 @@
 (require 'use-package)
 
 ;; install packages
-(defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode zenburn-theme))
+(defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode spacemacs-theme))
 (unless package-archive-contents (package-refresh-contents))
 (dolist (pkg package-list)
   (unless (package-installed-p pkg)
@@ -28,7 +28,7 @@
 (custom-set-variables '(custom-file (expand-file-name "custom.el" user-emacs-directory)))
 
 ;;; theme
-(load-theme 'zenburn t)
+(load-theme 'spacemacs-dark t)
 
 ;;; func
 (load-file (locate-user-emacs-file "func.el"))
