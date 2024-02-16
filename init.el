@@ -1,9 +1,10 @@
-;(setq debug-on-error t)
+;;(setq debug-on-error t)
 
 ;;; package.el
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
+(require 'use-package)
 
 ;; install packages
 (defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode))
@@ -69,53 +70,93 @@
           (lambda()
             (local-set-key "x" 'Buffer-menu-execute)))
 
+;;; white space
+(use-package whitespace
+  :config
+  (progn
+    (setq whitespace-style
+          '(face
+            trailing
+            tabs
+            space-mark
+            tab-mark
+            empty))
+    (set-face-attribute
+     'whitespace-tab nil
+     :background nil
+     :foreground nil
+     :underline nil)
+    (set-face-attribute
+     'whitespace-empty nil
+     :background nil)
+    (setq whitespace-display-mappings
+          '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
+    (setq whitespace-action
+          '(auto-cleanup))
+    (add-hook 'c++-mode-hook 'whitespace-mode)))
+
 ;;; company
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-minimum-prefix-length 2)
-(setq company-selection-wrap-around t)
-(setq completion-ignore-case t)
-(define-key company-active-map (kbd "TAB") 'nil)
-(define-key company-active-map (kbd "C-m") 'company-complete-selection)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-h") nil)
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-search-map (kbd "C-n") 'company-select-next)
-(define-key company-search-map (kbd "C-p") 'company-select-previous)
-(define-key company-search-map (kbd "M-n") nil)
-(define-key company-search-map (kbd "M-p") nil)
+(use-package company
+  :config
+  (progn
+    (add-hook 'after-init-hook 'global-company-mode)
+    (setq company-minimum-prefix-length 2)
+    (setq company-selection-wrap-around t)
+    (setq completion-ignore-case t)
+    (define-key company-active-map (kbd "TAB") 'nil)
+    (define-key company-active-map (kbd "C-m") 'company-complete-selection)
+    (define-key company-active-map (kbd "C-n") 'company-select-next)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous)
+    (define-key company-active-map (kbd "C-h") nil)
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-search-map (kbd "C-n") 'company-select-next)
+    (define-key company-search-map (kbd "C-p") 'company-select-previous)
+    (define-key company-search-map (kbd "M-n") nil)
+    (define-key company-search-map (kbd "M-p") nil)))
 
 ;;; lsp
-(setq lsp-prefer-capf t)
-(setq lsp-enable-indentation nil)
-(setq lsp-enable-on-type-formatting nil)
+(use-package lsp-mode
+  :config
+  (progn
+    (setq lsp-prefer-capf t)
+    (setq lsp-enable-indentation nil)
+    (setq lsp-enable-on-type-formatting nil)))
 
 ;;; redo-tree
-(require 'undo-tree nil t)
-(global-undo-tree-mode)
-(setq undo-tree-auto-save-history nil)
-(global-set-key (kbd "C-M-/") 'undo-tree-redo)
+(use-package undo-tree
+  :bind
+  (("C-/" . 'undo-tree-undo)
+   ("C-M-/" . 'undo-tree-redo))
+  :config
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-auto-save-history nil)))
 
-(require 'cmake-mode nil t)
-(setq auto-mode-alist
-      (append
-       '(("CMakeLists\\.txt$" . cmake-mode)
-         ("\\.cmake$" . cmake-mode))
-       auto-mode-alist))
+(use-package cmake-mode
+  :config
+  (progn
+    (setq auto-mode-alist
+          (append
+           '(("CMakeLists\\.txt$" . cmake-mode)
+             ("\\.cmake$" . cmake-mode))
+           auto-mode-alist))))
 
 ;; yasnippet
-(require 'yasnippet nil t)
-(yas-global-mode)
+(use-package yasnippet
+  :config
+  (progn
+    (yas-global-mode)))
 
 ;;; ddskk
-(when (require 'skk nil t)
-  (require 'skk-study)
-  (setq default-input-method "japanese-skk")
-  (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
-  (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
-  (setq skk-isearch-start-mode 'latin))
+(use-package skk
+  :config
+  (progn
+    (require 'skk-study)
+    (setq default-input-method "japanese-skk")
+    (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
+    (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
+    (setq skk-isearch-start-mode 'latin)))
 
 ;;; c-mode
 (add-hook 'c-mode-common-hook
@@ -148,26 +189,3 @@
 
 ;;; csharp-mode
 (add-hook 'csharp-mode-hook #'lsp)
-
-;;; white space
-(require 'whitespace)
-(setq whitespace-style
-      '(face
-        trailing
-        tabs
-        space-mark
-        tab-mark
-        empty))
-(set-face-attribute
- 'whitespace-tab nil
- :background nil
- :foreground nil
- :underline nil)
-(set-face-attribute
- 'whitespace-empty nil
- :background nil)
-(setq whitespace-display-mappings
-      '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
-(setq whitespace-action
-      '(auto-cleanup))
-(add-hook 'c++-mode-hook 'whitespace-mode)
