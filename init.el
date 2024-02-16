@@ -51,10 +51,6 @@
   (setq frame-title-format '(multiple-frames "%b" ("" invocation-name)))
   (setq default-frame-alist frame-parameters))
 
-;;; theme
-(setq custom-theme-directory (locate-user-emacs-file "themes/"))
-(load-theme 'custom t)
-
 ;;; paren-mode
 (show-paren-mode t)
 (setq show-paren-delay 0)
@@ -150,9 +146,10 @@
 
 ;;; ddskk
 (use-package skk
+  :commands
+  (skk skk-study)
   :config
   (progn
-    (require 'skk-study)
     (setq default-input-method "japanese-skk")
     (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
     (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
