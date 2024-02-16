@@ -77,14 +77,6 @@
             space-mark
             tab-mark
             empty))
-    (set-face-attribute
-     'whitespace-tab nil
-     :background nil
-     :foreground nil
-     :underline nil)
-    (set-face-attribute
-     'whitespace-empty nil
-     :background nil)
     (setq whitespace-display-mappings
           '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
     (setq whitespace-action
