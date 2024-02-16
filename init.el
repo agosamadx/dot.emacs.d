@@ -29,24 +29,6 @@
 
 ;;; theme
 (require-theme 'modus-themes)
-(setq modus-themes-slanted-constructs t
-      modus-themes-bold-constructs t
-      modus-themes-no-mixed-fonts t
-      modus-themes-subtle-line-numbers t
-      modus-themes-mode-line '(moody borderless)
-      modus-themes-syntax 'faint
-      modus-themes-paren-match 'intense-bold
-      modus-themes-region 'bg-only
-      modus-themes-diffs 'deuteranopia
-      modus-themes-org-blocks 'gray-background
-      modus-themes-variable-pitch-ui t
-      modus-themes-variable-pitch-headings t
-      modus-themes-scale-headings t
-      modus-themes-scale-1 1.1
-      modus-themes-scale-2 1.15
-      modus-themes-scale-3 1.21
-      modus-themes-scale-4 1.27
-      modus-themes-scale-title 1.33)
 (load-theme 'modus-vivendi t)
 
 ;;; func
