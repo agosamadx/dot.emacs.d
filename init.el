@@ -1,17 +1,17 @@
 ;;(setq debug-on-error t)
 
-;;; package.el
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
+;;; package
 (require 'use-package)
-
-;; install packages
-(defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode))
-(unless package-archive-contents (package-refresh-contents))
-(dolist (pkg package-list)
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
+(use-package package
+  :config
+  (progn
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+    (package-initialize)
+    (defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode))
+    (unless package-archive-contents (package-refresh-contents))
+    (dolist (pkg package-list)
+      (unless (package-installed-p pkg)
+        (package-install pkg)))))
 
 ;;; setting
 (setq inhibit-startup-screen t)
