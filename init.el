@@ -179,7 +179,7 @@
             (c-set-offset 'arglist-cont-nonempty 0)))
 (add-hook 'c++-mode-hook 'company-mode)
 (add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'c++-mode-hook #'lsp)
+(add-hook 'c++-mode-hook 'lsp)
 
 ;;; csharp-mode
-(add-hook 'csharp-mode-hook #'lsp)
+(add-hook 'csharp-mode-hook 'lsp)
