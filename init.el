@@ -7,7 +7,7 @@
   (progn
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
     (package-initialize)
-    (defvar package-list '(company undo-tree yasnippet ddskk lsp-mode lsp-ui flycheck cmake-mode csharp-mode))
+    (defvar package-list '(undo-tree ddskk lsp-mode lsp-ui company flycheck yasnippet cmake-mode csharp-mode))
     (unless package-archive-contents (package-refresh-contents))
     (dolist (pkg package-list)
       (unless (package-installed-p pkg)
@@ -87,6 +87,27 @@
           '(auto-cleanup))
     (add-hook 'c++-mode-hook 'whitespace-mode)))
 
+;;; redo-tree
+(use-package undo-tree
+  :bind
+  (("C-/" . 'undo-tree-undo)
+   ("C-M-/" . 'undo-tree-redo))
+  :config
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-auto-save-history nil)))
+
+;;; ddskk
+(use-package skk
+  :commands
+  (skk skk-study)
+  :config
+  (progn
+    (setq default-input-method "japanese-skk")
+    (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
+    (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
+    (setq skk-isearch-start-mode 'latin)))
+
 ;;; company
 (use-package company
   :config
@@ -115,16 +136,13 @@
     (setq lsp-enable-indentation nil)
     (setq lsp-enable-on-type-formatting nil)))
 
-;;; redo-tree
-(use-package undo-tree
-  :bind
-  (("C-/" . 'undo-tree-undo)
-   ("C-M-/" . 'undo-tree-redo))
+;;; yasnippet
+(use-package yasnippet
   :config
   (progn
-    (global-undo-tree-mode)
-    (setq undo-tree-auto-save-history nil)))
+    (yas-global-mode)))
 
+;;; cmake-mode
 (use-package cmake-mode
   :config
   (progn
@@ -133,23 +151,6 @@
            '(("CMakeLists\\.txt$" . cmake-mode)
              ("\\.cmake$" . cmake-mode))
            auto-mode-alist))))
-
-;; yasnippet
-(use-package yasnippet
-  :config
-  (progn
-    (yas-global-mode)))
-
-;;; ddskk
-(use-package skk
-  :commands
-  (skk skk-study)
-  :config
-  (progn
-    (setq default-input-method "japanese-skk")
-    (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
-    (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
-    (setq skk-isearch-start-mode 'latin)))
 
 ;;; c-mode
 (add-hook 'c-mode-common-hook
