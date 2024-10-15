@@ -1,2 +1,3 @@
 (cd "~/")
-(prefer-coding-system 'utf-8-unix)
+(setq lsp-clients-clangd-executable "C:/Program Files/LLVM/bin/clangd.exe")
+

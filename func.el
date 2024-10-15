@@ -1,14 +1,10 @@
-;;; 行頭とインデント末をトグル
-(defun beggining-of-indented-line (point)
-  (interactive "d")
-  (if (string-match
-       "^[ \t]+$"
-       (save-excursion
-         (buffer-substring-no-properties
-          (progn (beginning-of-line) (point))
-          point)))
-      (beginning-of-line)
-    (back-to-indentation)))
+(defun beggining-of-indented-line ()
+  "インデント後の行頭に移動、すでにインデント後の行頭だった場合は行頭に移動"
+  (interactive)
+  (let ((initial-point (point)))
+    (back-to-indentation)
+    (if (= initial-point (point))
+        (move-beginning-of-line nil))))
 
 ;;; 行頭のスペースをtab-width分ずつ消す
 (defun hungry-backspace ()

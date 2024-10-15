@@ -1,42 +1,4 @@
-;;(setq debug-on-error t)
-
-;;; package
-(require 'use-package)
-(use-package package
-  :config
-  (progn
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-    (package-initialize)
-    (defvar package-list '(undo-tree ddskk lsp-mode lsp-ui company flycheck yasnippet cmake-mode csharp-mode))
-    (unless package-archive-contents (package-refresh-contents))
-    (dolist (pkg package-list)
-      (unless (package-installed-p pkg)
-        (package-install pkg)))))
-
-;;; setting
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
-(setq completion-ignore-case t)
-(setq make-backup-files nil)
-(setq auto-save-default nil)
-(setq kill-whole-line t)
-(setq visible-bell t)
-(setq ring-bell-function 'ignore)
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
-(setq-default truncate-lines t)
-(custom-set-variables '(custom-file (expand-file-name "custom.el" user-emacs-directory)))
-
-;;; theme
-(require-theme 'modus-themes)
-(load-theme 'modus-vivendi t)
-
-;;; func
-(load-file (locate-user-emacs-file "func.el"))
-
-;;; for mac
-(when (memq window-system '(mac ns))
-  (load-file (locate-user-emacs-file "mac.el")))
+(prefer-coding-system 'utf-8-unix)
 
 ;;; for windows
 (when window-system '(windows-nt)
@@ -46,56 +8,45 @@
 (defvar frame-parameters
   '((width . 180)
     (height . 50)
-    (top . 64)
-    (left . 192)
     (tool-bar-lines . nil)))
 
 (when (memq window-system '(x w32 mac ns))
   (set-scroll-bar-mode nil)
-  (setq frame-title-format '(multiple-frames "%b" ("" invocation-name)))
   (setq default-frame-alist frame-parameters))
+
+;;; package
+(require 'use-package)
+(use-package package
+  :config
+  (progn
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))))
+
+;;; setting
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq kill-whole-line t)
+(setq completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default truncate-lines t)
+(custom-set-variables '(custom-file (expand-file-name "custom.el" user-emacs-directory)))
+
+;;; func
+(load-file (locate-user-emacs-file "func.el"))
+
+;;; key bind
+(global-set-key "\C-a" 'beggining-of-indented-line)
+(global-set-key "\C-h" 'backward-delete-char)
+(global-set-key "\C-x\C-b" 'electric-buffer-list)
+(global-set-key (kbd "C-M-/") 'undo-redo)
 
 ;;; paren-mode
 (show-paren-mode t)
 (setq show-paren-delay 0)
 (setq show-paren-style 'mixed)
-
-(global-set-key "\C-h" 'backward-delete-char)
-(global-set-key "\C-ce" 'eshell)
-(global-set-key "\C-x\C-b" 'electric-buffer-list)
-(global-set-key "\C-a" 'beggining-of-indented-line)
-(global-set-key "\C-k" 'kill-line)
-(global-set-key "\M-k" (lambda () (interactive) (kill-line 0)))
-(add-hook 'electric-buffer-menu-mode-hook
-          (lambda()
-            (local-set-key "x" 'Buffer-menu-execute)))
-
-;;; white space
-(use-package whitespace
-  :config
-  (progn
-    (setq whitespace-style
-          '(face
-            trailing
-            tabs
-            space-mark
-            tab-mark
-            empty))
-    (setq whitespace-display-mappings
-          '((tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t])))
-    (setq whitespace-action
-          '(auto-cleanup))
-    (add-hook 'c++-mode-hook 'whitespace-mode)))
-
-;;; redo-tree
-(use-package undo-tree
-  :bind
-  (("C-/" . 'undo-tree-undo)
-   ("C-M-/" . 'undo-tree-redo))
-  :config
-  (progn
-    (global-undo-tree-mode)
-    (setq undo-tree-auto-save-history nil)))
 
 ;;; ddskk
 (use-package skk
@@ -106,51 +57,8 @@
     (setq default-input-method "japanese-skk")
     (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
     (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
-    (setq skk-isearch-start-mode 'latin)))
-
-;;; company
-(use-package company
-  :config
-  (progn
-    (add-hook 'after-init-hook 'global-company-mode)
-    (setq company-minimum-prefix-length 2)
-    (setq company-selection-wrap-around t)
-    (setq completion-ignore-case t)
-    (define-key company-active-map (kbd "TAB") 'nil)
-    (define-key company-active-map (kbd "C-m") 'company-complete-selection)
-    (define-key company-active-map (kbd "C-n") 'company-select-next)
-    (define-key company-active-map (kbd "C-p") 'company-select-previous)
-    (define-key company-active-map (kbd "C-h") nil)
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-search-map (kbd "C-n") 'company-select-next)
-    (define-key company-search-map (kbd "C-p") 'company-select-previous)
-    (define-key company-search-map (kbd "M-n") nil)
-    (define-key company-search-map (kbd "M-p") nil)))
-
-;;; lsp
-(use-package lsp-mode
-  :config
-  (progn
-    (setq lsp-prefer-capf t)
-    (setq lsp-enable-indentation nil)
-    (setq lsp-enable-on-type-formatting nil)))
-
-;;; yasnippet
-(use-package yasnippet
-  :config
-  (progn
-    (yas-global-mode)))
-
-;;; cmake-mode
-(use-package cmake-mode
-  :config
-  (progn
-    (setq auto-mode-alist
-          (append
-           '(("CMakeLists\\.txt$" . cmake-mode)
-             ("\\.cmake$" . cmake-mode))
-           auto-mode-alist))))
+    (setq skk-isearch-start-mode 'latin))
+  :bind (("C-\\" . skk-mode)))
 
 ;;; c-mode
 (add-hook 'c-mode-common-hook
@@ -177,9 +85,31 @@
             (c-set-offset 'arglist-intro '+)
             (c-set-offset 'arglist-close 0)
             (c-set-offset 'arglist-cont-nonempty 0)))
-(add-hook 'c++-mode-hook 'company-mode)
-(add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'c++-mode-hook 'lsp)
 
-;;; csharp-mode
-(add-hook 'csharp-mode-hook 'lsp)
+;;; lsp-mode
+(use-package lsp-mode
+  :ensure t
+  :hook ((c-mode . lsp)
+         (c++-mode . lsp))
+  :commands (lsp lsp-deferred))
+
+;;; lsp-ui
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;;; company
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+;;; flycheck
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
+;;; lsp-treemacs
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
