@@ -113,3 +113,10 @@
 (use-package lsp-treemacs
   :ensure t
   :commands lsp-treemacs-errors-list)
+
+;;; yasnippet
+(use-package yasnippet
+  :ensure t
+  :config
+  (progn
+    (yas-global-mode)))
