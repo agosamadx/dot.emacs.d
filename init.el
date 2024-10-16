@@ -1,3 +1,10 @@
+;;; init.el --- Emacs initialization file
+
+;;; Commentary:
+;; Emacs initialization settings
+
+;;; Code:
+
 (prefer-coding-system 'utf-8-unix)
 
 ;;; for windows
@@ -63,10 +70,8 @@
 ;;; c-mode
 (add-hook 'c-mode-common-hook
           (lambda()
-            (setq c-default-style "stroustrup")
-            (setq c-basic-offset 4)
-            (setq tab-width 4)
-            (setq indent-tabs-mode nil)
+            (c-set-style "stroustrup")
+            (c-set-offset 4)
             (local-set-key "\C-h" 'hungry-backspace)
             (local-set-key "\C-d" 'hungry-delete)
             (local-set-key "\C-f" 'hungry-forward-char)
@@ -120,3 +125,6 @@
   :config
   (progn
     (yas-global-mode)))
+
+(provide 'init)
+;;; init.el ends here
