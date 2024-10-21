@@ -34,6 +34,7 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-whole-line t)
+(setq ring-bell-function 'ignore)
 (setq completion-ignore-case t)
 (setq read-buffer-completion-ignore-case t)
 (setq-default tab-width 4)
@@ -58,9 +59,13 @@
 ;;; lsp-mode
 (use-package lsp-mode
   :ensure t
-  :hook ((c-mode . lsp)
-         (c++-mode . lsp))
-  :commands (lsp lsp-deferred))
+  :hook ((c-mode . lsp-deferred)
+         (c++-mode . lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :config
+  (progn
+    (setq-default lsp-enable-indentation nil)
+    (setq-default lsp-enable-on-type-formatting nil)))
 
 ;;; lsp-ui
 (use-package lsp-ui
