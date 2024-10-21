@@ -112,7 +112,6 @@
 (add-hook 'c-mode-common-hook
           (lambda()
             (c-set-style "stroustrup")
-            (c-set-offset 4)
             (local-set-key "\C-h" 'hungry-backspace)
             (local-set-key "\C-d" 'hungry-delete)
             (local-set-key "\C-f" 'hungry-forward-char)
