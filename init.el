@@ -33,6 +33,7 @@
 (setq initial-scratch-message nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+(setq create-lockfiles nil)
 (setq kill-whole-line t)
 (setq ring-bell-function 'ignore)
 (setq completion-ignore-case t)
