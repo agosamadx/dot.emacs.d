@@ -62,6 +62,7 @@
   :ensure t
   :hook ((c-mode . lsp-deferred)
          (c++-mode . lsp-deferred)
+         (csharp-mode . lsp-deferred)
          (php-mode . lsp-deferred))
   :commands (lsp lsp-deferred)
   :config
@@ -110,6 +111,11 @@
     (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup))
   :bind (("C-\\" . skk-mode)))
 
+;;; csharp-mode
+(use-package csharp-mode
+  :ensure t)
+
+;;; php-mode
 (use-package php-mode
   :ensure t)
 
