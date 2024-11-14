@@ -79,7 +79,9 @@
 (use-package company
   :ensure t
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (progn
+    (define-key company-active-map (kbd "C-h") nil)
+    (add-hook 'after-init-hook 'global-company-mode)))
 
 ;;; flycheck
 (use-package flycheck
